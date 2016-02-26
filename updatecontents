@@ -23,12 +23,16 @@ Sub pauseScript()
       Loop
 End Sub
 
-function getHTML(url)
+function getHTML(url,plain)
 	On Error Resume Next
 	http.open "GET", URL, False
 	http.send ""
 	if err.Number = 0 Then
-		getHTML = ConvertHTML2PlainText(http.responseText)
+		if plain=1 then
+			getHTML = ConvertHTML2PlainText(http.responseText)
+		else
+			getHTML = http.responseText
+		end if
 	Else
 		if DEBUGA=1 then
 			Wscript.Echo "INTERNET CALL ERROR (" & Err.Number & "): " & Err.Description
@@ -60,38 +64,56 @@ End Function
 Set objShell = Wscript.CreateObject("WScript.Shell")
 Const ForReading = 1
 Dim verscheck1,verscheck2,verscheck3,saveepisodic,goblinkey,maploadcount,plname,plage,plmoney,x,evaluated,mappath,episodic,gamever
-gamever="0.4a"
+gamever="0.5a"
 verscheck1="https://raw.githubusercontent.com/ClayHanson/advent/master/update"
 verscheck2="http://gentdm.uphero.com/advent/latestVersion.htm"
 verscheck3="http://forum.blockland.us"
 'Version Check
 wscript.echo "Checking game version..."
-Dim htmlver
-htmlver=getHTML(verscheck1)
+Dim htmlver,updatecache,upchoice
+htmlver=getHTML(verscheck1,1)
 if htmlver="0" then
 	wscript.echo "Error reaching '"&verscheck1&"' - Trying next update link."
-	htmlver=getHTML(verscheck2)
+	htmlver=getHTML(verscheck2,1)
 	if htmlver="0" then
 		wscript.echo "Error reaching '"&verscheck2&"' - Trying next update link."
-		htmlver=getHTML(verscheck3)
+		htmlver=getHTML(verscheck3,1)
 		if htmlver="0" then
 			wscript.echo "Error reaching '"&verscheck3&"' - Could not reach an update server."
 		else
 			htmlver=left(htmlver,inStr(htmlver,"}")-1)
 			if htmlver<>gamever then
-				msgbox "There is a new version of ADVENT (v"&htmlver&") Download from here: "&vbCr&verscheck3,0,"Update Available - Advent"
+				upchoice=msgbox("There is a new version of ADVENT (v"&htmlver&"). Do you want to install this update?",3,"Update Available - Advent")
+				if upchoice=6 then
+					updatecache = getHTML("https://raw.githubusercontent.com/ClayHanson/advent/master/updatecontents",0)
+					Set objFile=objFSO.CreateTextFile("update1.vbs",True)
+					objFile.Write updatecache
+					objFile.close
+				end if
 			end if
 		end if
 	else
 		htmlver=left(htmlver,inStr(htmlver,"}")-1)
 		if htmlver<>gamever then
-			msgbox "There is a new version of ADVENT (v"&htmlver&") Download from here: "&vbCr&verscheck2,0,"Update Available - Advent"
+			upchoice=msgbox("There is a new version of ADVENT (v"&htmlver&"). Do you want to install this update?",3,"Update Available - Advent")
+			if upchoice=6 then
+				updatecache = getHTML("https://raw.githubusercontent.com/ClayHanson/advent/master/updatecontents",0)
+				Set objFile=objFSO.CreateTextFile("update1.vbs",True)
+				objFile.Write updatecache
+				objFile.close
+			end if
 		end if
 	end if
 else
 	htmlver=left(htmlver,inStr(htmlver,"}")-1)
 	if htmlver<>gamever then
-		msgbox "There is a new version of ADVENT (v"&htmlver&") Download from here: "&vbCr&verscheck1,0,"Update Available - Advent"
+		upchoice=msgbox("There is a new version of ADVENT (v"&htmlver&"). Do you want to install this update?",3,"Update Available - Advent")
+		if upchoice=6 then
+			updatecache = getHTML("https://raw.githubusercontent.com/ClayHanson/advent/master/updatecontents",0)
+			Set objFile=objFSO.CreateTextFile("update1.vbs",True)
+			objFile.Write updatecache
+			objFile.close
+		end if
 	end if
 end if
 evaluated=0
