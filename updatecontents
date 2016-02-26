@@ -1,0 +1,449 @@
+Dim DEBUGA
+DEBUGA=0
+If UCase( Right( WScript.FullName, 12 ) ) <> "\CSCRIPT.EXE" Then
+	Set objShell = CreateObject("WScript.Shell")
+	objShell.run("cscript .\Advent.vbs")
+	Set objShell = Nothing
+	wscript.quit
+end if
+Set WshShell = WScript.CreateObject("WScript.Shell")
+Set http = CreateObject("Microsoft.XmlHttp")
+Set objFSO = CreateObject("Scripting.FileSystemObject")
+if objFSO.FolderExists("./base")<>true then
+	msgbox "FATAL ERROR!"&vbCr&"The required directory './base' was not found. Please re-install ADVENT.",016,"Fatal Error - ADVENT"
+	wscript.quit
+end if
+Sub pauseScript()
+      Dim strMessage, Input
+      Wscript.StdOut.Write strMessage
+      WScript.Echo "Press ENTER to continue."
+
+      Do While Not WScript.StdIn.AtEndOfLine
+            Input = WScript.StdIn.Read(1)
+      Loop
+End Sub
+
+function getHTML(url)
+	On Error Resume Next
+	http.open "GET", URL, False
+	http.send ""
+	if err.Number = 0 Then
+		getHTML = ConvertHTML2PlainText(http.responseText)
+	Else
+		if DEBUGA=1 then
+			Wscript.Echo "INTERNET CALL ERROR (" & Err.Number & "): " & Err.Description
+		end if
+		getHTML = "0"
+	End If
+end function
+Function ConvertHTML2PlainText(ByVal sText)
+    Dim oRegEx
+    Set oRegEx = New RegExp
+        oRegEx.Pattern = "</?.+?/?>"
+    oRegEx.Global = True
+    oRegEx.IgnoreCase = True
+ 
+    sText = oRegEx.Replace(sText, "")
+ 
+    oRegEx.Pattern = "&gt;"
+    sText = oRegEx.Replace(sText, ">")
+ 
+    oRegEx.Pattern = "&lt;"
+    sText = oRegEx.Replace(sText, "<")
+ 
+    oRegEx.Pattern = "&quot;"
+    sText = oRegEx.Replace(sText, """")
+ 
+    ConvertHTML2PlainText = sText
+End Function
+
+Set objShell = Wscript.CreateObject("WScript.Shell")
+Const ForReading = 1
+Dim verscheck1,verscheck2,verscheck3,saveepisodic,goblinkey,maploadcount,plname,plage,plmoney,x,evaluated,mappath,episodic,gamever
+gamever="0.4a"
+verscheck1="https://raw.githubusercontent.com/ClayHanson/advent/master/update"
+verscheck2="http://gentdm.uphero.com/advent/latestVersion.htm"
+verscheck3="http://forum.blockland.us"
+'Version Check
+wscript.echo "Checking game version..."
+Dim htmlver
+htmlver=getHTML(verscheck1)
+if htmlver="0" then
+	wscript.echo "Error reaching '"&verscheck1&"' - Trying next update link."
+	htmlver=getHTML(verscheck2)
+	if htmlver="0" then
+		wscript.echo "Error reaching '"&verscheck2&"' - Trying next update link."
+		htmlver=getHTML(verscheck3)
+		if htmlver="0" then
+			wscript.echo "Error reaching '"&verscheck3&"' - Could not reach an update server."
+		else
+			htmlver=left(htmlver,inStr(htmlver,"}")-1)
+			if htmlver<>gamever then
+				msgbox "There is a new version of ADVENT (v"&htmlver&") Download from here: "&vbCr&verscheck3,0,"Update Available - Advent"
+			end if
+		end if
+	else
+		htmlver=left(htmlver,inStr(htmlver,"}")-1)
+		if htmlver<>gamever then
+			msgbox "There is a new version of ADVENT (v"&htmlver&") Download from here: "&vbCr&verscheck2,0,"Update Available - Advent"
+		end if
+	end if
+else
+	htmlver=left(htmlver,inStr(htmlver,"}")-1)
+	if htmlver<>gamever then
+		msgbox "There is a new version of ADVENT (v"&htmlver&") Download from here: "&vbCr&verscheck1,0,"Update Available - Advent"
+	end if
+end if
+evaluated=0
+Dim Sound
+Set Sound = CreateObject("WMPlayer.OCX")
+Sub Play(SoundFile)
+Sound.URL = SoundFile
+Sound.settings.volume = 40
+Sound.Controls.play
+do while Sound.currentmedia.duration = 0
+    wscript.sleep 100
+loop
+wscript.sleep(int(Sound.currentmedia.duration)+1)*1000
+End Sub
+Function UserInput( myPrompt )
+    If UCase( Right( WScript.FullName, 12 ) ) = "\CSCRIPT.EXE" Then
+        ' If so, use StdIn and StdOut
+        WScript.StdOut.Write myPrompt & " "
+        UserInput = WScript.StdIn.ReadLine
+    Else
+        ' If not, use InputBox( )
+        UserInput = InputBox( myPrompt )
+    End If
+End Function
+Dim mapcache,validinput,uinput,mapinfo,opt,debug,row,foundmapend
+validinput=0
+Function evaluateInput(uin)
+	if uin="" then
+		evaluated=1
+	end if
+	if uin="stats" and evaluated=0 then
+		wscript.echo " "
+		wscript.echo "PLAYER NAME: "&plname
+		wscript.echo "AGE: "&plage
+		wscript.echo "MONEY: $"&plmoney
+		wscript.echo " "
+	end if
+	if uin="look" and evaluated=0 then
+		evaluated=1
+		msgbox mapinfo
+		wscript.echo mapcache
+		evaluated=0
+	end if
+	if uin="save" and evaluated=0 then
+		Set objFile = objFSO.CreateTextFile(".\base\savegame01.avs",True)
+		'FORMAT:
+		'Line 1: PL NAME, Line 2: PL MONEY, Line 3: PL AGE, Line 4: MAP
+		objFile.Write strReverse(plname)&vbCrLf
+		objFile.Write strReverse(plmoney)&vbCrLf
+		objFile.Write strReverse(plage)&vbCrLf
+		objFile.Write strReverse(mappath)&vbCrLf
+		objFile.Write strReverse(goblinkey)&vbCrLf
+		objFile.close
+		if objFSO.FileExists(".\base\savegame01.avs") then
+			wscript.echo "Game Saved."
+		else
+			wscript.echo "Failed to save game."
+		end if
+	end if
+	if uin="exit" and evaluated=0 then
+		evaluated=1
+		wscript.quit
+	end if
+	'if uin="test" and evaluated=0 then
+	'	evaluated=1
+	'	validinput=1
+	'end if
+	if uin="suicide" and evaluated=0 then
+		evaluated=1
+		wscript.echo "You decide that the best course of action here is to exit the game. You ascend to heaven."
+		pauseScript()
+		wscript.echo "GAME OVER!"
+		wscript.quit
+	end if
+	if evaluated=0 then
+		Set objFile = objFSO.OpenTextFile(mappath&".ch", ForReading)
+		Do While objFile.AtEndOfStream = False
+			strLine = objFile.ReadLine
+			if inStr(lcase(strLine),lcase(left(uin,len(uin))))=1 then
+				if inStr(strLine,"#") then
+					strLine=replace(strLine,"#","")
+					strLine=replace(lcase(strLine),lcase(uin)&" ","")
+					loadMap(strLine)
+				else
+					if inStr(strLine,"$") then
+						if plmoney>=5 then
+							plmoney=plmoney-5
+							strLine=replace(strLine,"$","")
+							strLine=replace(lcase(strLine),lcase(uin)&" ","")
+							loadMap(strLine)
+						else
+							wscript.echo "You don't have enough money."
+						end if
+					else
+						if inStr(strLine,"*") then
+							strLine=replace(strLine,"*","")
+							strLine=replace(lcase(strLine),lcase(uin)&" ","")
+							if strLine="1" then
+								if goblinkey<>1 then
+									if plmoney>=45 then
+										plmoney=plmoney-45
+										goblinkey=1
+										wscript.echo "You got the =GOBLIN KEY=!"
+										pauseScript()
+										wscript.echo mapcache
+									else
+										wscript.echo "You need $100 to purchase the =GOBLIN KEY=."
+									end if
+								else
+									wscript.echo "You already have the Goblin Key."
+								end if
+							else
+								if goblinkey=1 then
+									loadMap(strLine)
+								else
+									wscript.echo "You don't have the Goblin Key."
+								end if
+							end if
+						else
+							wscript.echo mid(strLine,inStr(strLine," ")+1,len(strLine))
+						end if
+					end if
+				end if
+			end if
+		Loop
+		objFile.close
+	end if
+	evaluated=0
+end function
+function StartGame(et)
+	if et=1 then
+		LoadMap(mappath)
+	else
+		plname=userinput("Name>")
+		goblinkey=0
+		plage="15"
+		plmoney="50"
+		LoadMap("maps\start")
+	end if
+end function
+if objFSO.FileExists("./base/t_2016.txt")<>true or objFSO.FileExists("./base/t_2016.ch")<>true or objFSO.FileExists("./base/t_2016.desc")<>true then
+	msgbox "FATAL ERROR!"&vbCr&"The required map './base/t_2016' was not found. Please re-install ADVENT.",016,"Fatal Error - ADVENT"
+	wscript.quit
+end if
+episodic=1
+if episodic=2 then
+	If objFSO.FolderExists(".\EP2")<>true Then
+		wscript.echo "Error loading episodic game data."
+		pauseScript()
+		wscript.quit
+	end if
+	if objFSO.FileExists(".\EP2\gameinfo.txt")<>true then
+		wscript.echo "Could not find 'gameinfo.txt'."
+		pauseScript()
+		wscript.quit
+	end if
+	loadMap("./EP2/maps/t_2016ep2")
+else
+	LoadMap("./base/t_2016")
+end if
+
+
+debug = 0
+function LoadMap(path)
+	If (objFSO.FileExists(path&".txt")) and (objFSO.FileExists(path&".desc")) and (objFSO.FileExists(path&".ch")) then
+		if DEBUGA=1 then
+			wscript.echo "DEBUG :: Attempting to load map '"&path&"'..."
+		end if
+		mappath = path
+		Set objFile = objFSO.OpenTextFile(path&".txt", ForReading)
+		row=0
+		foundmapend = 0
+		Do While objFile.AtEndOfStream = False
+			strLine = objFile.ReadLine
+			if strLine="///" then
+				foundmapend = 1
+			end if
+			if foundmapend<>1 then
+				row=row+1
+			end if
+		Loop
+		if debug=1 then
+			wscript.echo "Got "&row&" lines of text."
+		end if
+		if row>=26 then
+			wscript.echo "FATAL MAP ERROR :: The size of the map in '"&path&".txt' is more than or equal to 26."
+			msgbox "FATAL MAP ERROR :: The size of the map in '"&path&".txt' is more than or equal to 26."
+			wscript.quit
+		end if
+		objFile.close
+		foundmapend = 0
+		mapcache=""
+		Set objFile = objFSO.OpenTextFile(path&".txt", ForReading)
+		Do While objFile.AtEndOfStream = False
+			strLine = objFile.ReadLine
+			if strLine="///" then
+				foundmapend = 1
+			end if
+			if foundmapend<>1 then
+				if mapcache="" then
+					mapcache=mapcache&mid(strLine,4,len(strLine))
+				else
+					mapcache=mapcache&vbLf&mid(strLine,4,len(strLine))
+				end if
+				wscript.echo mid(strLine,4,len(strLine))
+			end if
+		Loop
+		objFile.close
+		mapinfo = ""
+		Set objFile = objFSO.OpenTextFile(path&".desc", ForReading)
+		Do While objFile.AtEndOfStream = False
+			strLine = objFile.ReadLine
+			if mapinfo = "" then
+				mapinfo=mapinfo&strLine
+			else
+				mapinfo=mapinfo&vbCr&strLine
+			end if
+		Loop
+		objFile.close
+		uinput=""
+		validinput=0
+		if inStr(path,"./base/t_")=0 then
+			if DEBUGA=1 then
+				wscript.echo "DEBUG :: Map name includes no special string(s) - Initiating default menu."
+			end if
+			Do until validinput = 1
+				uinput=UserInput("What to do?")
+				evaluateInput(uinput)
+			Loop
+		end if
+		if inStr(path,"./base/t_")=1 then
+			if DEBUGA=1 then
+				wscript.echo "DEBUG :: Map name includes special string './base/t_' - Initiating menu input."
+			end if
+			Do
+				uinput=UserInput("Option: ")
+				if uinput<>"" then
+					if uinput="1" then
+						'play("dkmgamestart.mp3")
+						StartGame(0)
+						Exit Do
+					end if
+					if uinput="2" then
+						if objFSO.FileExists("./base/savegame01.avs")<>true then
+							wscript.echo "Save file does not exist."
+						else
+							Set objFile = objFSO.OpenTextFile("./base/savegame01.avs", ForReading)
+							'FORMAT:
+							'Line 1: PL NAME, Line 2: PL MONEY, Line 3: PL AGE, Line 4: MAP, Line 5: Has key to goblins' place
+							Set objFile = objFSO.OpenTextFile("./base/savegame01.avs", ForReading)
+							maploadcount=0
+							if objFile.AtEndOfStream = False then
+								plname = strReverse(objFile.ReadLine)
+								maploadcount=maploadcount+1
+								if DEBUGA=1 then
+									wscript.echo "DEBUG :: Got PLNAME."
+								end if
+							end if
+							if objFile.AtEndOfStream = False then
+								plmoney = strReverse(objFile.ReadLine)
+								maploadcount=maploadcount+1
+								if DEBUGA=1 then
+									wscript.echo "DEBUG :: Got PLMONEY."
+								end if
+							end if
+							if objFile.AtEndOfStream = False then
+								plage = strReverse(objFile.ReadLine)
+								maploadcount=maploadcount+1
+								if DEBUGA=1 then
+									wscript.echo "DEBUG :: Got PLAGE."
+								end if
+							end if
+							if objFile.AtEndOfStream = False then
+								mappath = strReverse(objFile.ReadLine)
+								maploadcount=maploadcount+1
+								if DEBUGA=1 then
+									wscript.echo "DEBUG :: Got MAPPATH."
+								end if
+							end if
+							if objFile.AtEndOfStream = False then
+								goblinkey = strReverse(objFile.ReadLine)
+								maploadcount=maploadcount+1
+								if DEBUGA=1 then
+									wscript.echo "DEBUG :: Got GOBLINKEY."
+								end if
+							end if
+							if DEBUGA=1 then
+								wscript.echo "DEBUG :: "&maploadcount
+							end if
+							if maploadcount=5 and isNumeric(goblinkey) and isNumeric(plmoney) and isNumeric(plage) then
+								StartGame(1)
+							else
+								wscript.echo "Save file is corrupted and cannot be used."
+								mappath=""
+								plage=""
+								plmoney=""
+								plname=""
+							end if
+							objFile.close
+						end if
+					end if
+					if uinput="3" then
+						'load dlc
+						if objFSO.FolderExists("./base") then
+							wscript.echo "Advent 2016 Base [LOADED]"
+						else
+							wscript.echo "Advent 2016 Base [NOT FOUND]"
+						end if
+						if objFSO.FolderExists("./EP1") then
+							wscript.echo "Advent 2016: Episode 1 [LOADED]"
+						else
+							wscript.echo "Advent 2016: Episode 1 [NOT FOUND]"
+						end if
+						if objFSO.FolderExists("./EP2") then
+							wscript.echo "Advent 2016: Episode 2 [LOADED]"
+						else
+							wscript.echo "Advent 2016: Episode 2 [NOT FOUND]"
+						end if
+						pausescript()
+						wscript.echo mapcache
+					end if
+					if uinput="4" then
+						wscript.echo "Created By: Johnny E. Ledger"
+						wscript.echo "Game Version: "&gamever
+						pausescript()
+						wscript.echo mapcache
+					end if
+					if uinput="5" then
+						wscript.quit
+					end if
+					if uinput="15144" then
+						wscript.echo "ENTERING DEBUG STATE, SETTING VARIABLES."
+						plname="DEBUG"
+						plage="-1"
+						plmoney="999999"
+						validinput=1
+						Exit Do
+					end if
+				end if
+			Loop
+		end if
+	else
+		if objFSO.FileExists(path&".txt") and objFSO.FileExists(path&".desc")<>true or objFSO.FileExists(path&".txt") and objFSO.FileExists(path&".ch")<>true then
+			wscript.echo "Error loading map '"&path&".txt' (Map is missing a required component)."
+		else
+			wscript.echo "Error loading map '"&path&".txt' (Map file does not exist)."
+		end if
+	end if
+End Function
+
+Do
+'error handling - go here if you somehow bypass the normal DO loops.
+x=userinput("MAP PATH>")
+LoadMap(x)
+Loop
