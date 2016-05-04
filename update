@@ -1,14 +1,14 @@
 1.7.0}[https://raw.githubusercontent.com/ClayHanson/advent/master/Advent.vbs](Version 1.7.0NL    +- Changed config.cfg to config.iniNL    +- Updater now downloads ADVENT along with all subfolders of the newest version of the game.NL    +- Sword's position changes depending on the current direction of the player.)
 %count6/count%
-@1@https://github.com/ClayHanson/advent/raw/master/sounds/BOSS1.mid?raw=true@/1@
 @path1@./sounds/BOSS1.mid@/path1@
-@2@https://github.com/ClayHanson/advent/raw/master/sounds/Title.mid?raw=true@/2@
 @path2@./sounds/Title.mid@/path2@
-@3@https://github.com/ClayHanson/advent/raw/master/sounds/Hatred.mid?raw=true@/3@
 @path3@./sounds/Hatred.mid@/path3@
-@4@https://raw.githubusercontent.com/ClayHanson/advent/master/base/t_2016.ch@/4@
 @path4@./base/t_2016.ch@/path4@
-@5@https://raw.githubusercontent.com/ClayHanson/advent/master/base/t_2016.desc@/5@
 @path5@./base/t_2016.desc@/path5@
-@6@https://raw.githubusercontent.com/ClayHanson/advent/master/base/t_2016.txt@/6@
 @path6@./base/t_2016.txt@/path6@
+@1@https://github.com/ClayHanson/advent/raw/master/sounds/BOSS1.mid?raw=true@/1@
+@2@https://github.com/ClayHanson/advent/raw/master/sounds/Title.mid?raw=true@/2@
+@3@https://github.com/ClayHanson/advent/raw/master/sounds/Hatred.mid?raw=true@/3@
+@4@https://raw.githubusercontent.com/ClayHanson/advent/master/base/t_2016.ch@/4@
+@5@https://raw.githubusercontent.com/ClayHanson/advent/master/base/t_2016.desc@/5@
+@6@https://raw.githubusercontent.com/ClayHanson/advent/master/base/t_2016.txt@/6@
