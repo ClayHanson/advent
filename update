@@ -1,5 +1,5 @@
 1.7.0}[https://raw.githubusercontent.com/ClayHanson/advent/master/Advent.vbs](Version 1.7.0NL    +- Changed config.cfg to config.iniNL    +- Updater now downloads ADVENT along with all subfolders of the newest version of the game.NL    +- Sword's position changes depending on the current direction of the player.)
-%count6/count%
+%count3/count%
 @path1@./base/t_2016.ch@/path1@
 @path2@./base/t_2016.desc@/path2@
 @path3@./base/t_2016.txt@/path3@
