@@ -1,4 +1,4 @@
-1.7.0}[https://raw.githubusercontent.com/ClayHanson/advent/master/Advent.vbs](Version 1.7.1NL    +- Changed config.cfg to config.iniNL    +- Updater now downloads ADVENT along with all subfolders of the newest version of the game.NL    +- Sword's position changes depending on the current direction of the player.)
+1.7.2}[https://raw.githubusercontent.com/ClayHanson/advent/master/Advent.vbs](NLVersion 1.7.2NL    +- Added mappacks.)
 %count7/count%
 @path1@./base/t_2016.ch@/path1@
 @path2@./base/t_2016.desc@/path2@
@@ -6,11 +6,11 @@
 @path4@./maps/start.ch@/path4@
 @path5@./maps/start.desc@/path5@
 @path6@./maps/start.txt@/path6@
-@path7@./sounds/title.mid@/path7@
+@path7@./readme.txt@/path7@
 @1@https://raw.githubusercontent.com/ClayHanson/advent/master/base/t_2016.ch@/1@
 @2@https://raw.githubusercontent.com/ClayHanson/advent/master/base/t_2016.desc@/2@
 @3@https://raw.githubusercontent.com/ClayHanson/advent/master/base/t_2016.txt@/3@
 @4@https://raw.githubusercontent.com/ClayHanson/advent/master/mapfiles/start.ch@/4@
 @5@https://raw.githubusercontent.com/ClayHanson/advent/master/mapfiles/start.desc@/5@
 @6@https://raw.githubusercontent.com/ClayHanson/advent/master/mapfiles/start.txt@/6@
-@7@https://github.com/ClayHanson/advent/blob/master/sounds/Title.mid@/7@
+@7@https://raw.githubusercontent.com/ClayHanson/advent/master/Readme.txt@/7@
