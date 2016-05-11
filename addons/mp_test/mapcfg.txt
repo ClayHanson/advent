@@ -1,0 +1,5 @@
+$start::map=example
+$start::age=40
+$start::money=5000
+$start::item::name=Testname.
+$start::item::description=Item test description.

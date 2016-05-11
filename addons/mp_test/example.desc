@@ -1,0 +1,5 @@
+Map's description. When the player does the 'look' command, the text in this file will pop up.
+
+If item descriptions include 'damage' or 'potion', they will do their respective activities.
+For example, an item with the word 'damage' in it's description will offer the option to equip it to the player when
+the USE command is used on it.
