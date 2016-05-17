@@ -1,0 +1,26 @@
+%%%%_y18_x12
+A1  
+A2  
+A3  
+A4  
+A5  
+A6  
+A7 
+A8 
+A9 
+AA 
+AB 
+AC XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+AD X                       X                       X
+AE X                                               X
+AF X                       X                       X
+B1 X                       X                       X
+B2 X   ._.              .__X                       X
+B3 X   |O|              |  XXXXXXXXXXXXXXXXXXXXXXXXX
+B4 X   |_|              |__X
+B5 X                       X
+B6 X                       X
+B7 X                       X
+B8 XXXXXXXXXXXX000XXXXXXXXXX
+B9 | INSIDE XIEW | MY HOME |
+///
