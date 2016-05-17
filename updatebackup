@@ -1,5 +1,5 @@
-1.7.3}[https://raw.githubusercontent.com/ClayHanson/advent/master/Advent.vbs](NLVersion 1.7.3NL    +- Updater looks nicer and provides more information while downloading an update.NL    +- Minor bug fixes.)
-%count12/count%
+1.7.4}[https://raw.githubusercontent.com/ClayHanson/advent/master/Advent.vbs](Version 1.7.4NL + Feature: Map SequencingNL + Feature: Changed collision detection. Instead of '<>^v', any capital X's will indicate an unmovable wall.NL + Feature: Maps now load smoother.)
+%count14/count%
 @path1@./base/t_2016.ch@/path1@
 @path2@./base/t_2016.desc@/path2@
 @path3@./base/t_2016.txt@/path3@
@@ -8,10 +8,12 @@
 @path6@./maps/start.txt@/path6@
 @path7@./readme.txt@/path7@
 @path8@./addons/mp_test/description.txt@/path8@
-@path9@./addons/mp_test/example.ch@/path9@
-@path10@./addons/mp_test/example.desc@/path10@
-@path11@./addons/mp_test/example.txt@/path11@
-@path12@./addons/mp_test/mapcfg.txt@/path12@
+@path9@./addons/mp_test/mapcfg.txt@/path9@
+@path10@./base/intro/intro0.txt@/path10@
+@path11@./base/intro/intro1.txt@/path11@
+@path12@./base/intro/intro2.txt@/path12@
+@path13@./base/intro/intro3.txt@/path13@
+@path14@./base/intro/introcfg.txt@/path14@
 @1@https://raw.githubusercontent.com/ClayHanson/advent/master/base/t_2016.ch@/1@
 @2@https://raw.githubusercontent.com/ClayHanson/advent/master/base/t_2016.desc@/2@
 @3@https://raw.githubusercontent.com/ClayHanson/advent/master/base/t_2016.txt@/3@
@@ -20,7 +22,9 @@
 @6@https://raw.githubusercontent.com/ClayHanson/advent/master/mapfiles/start.txt@/6@
 @7@https://raw.githubusercontent.com/ClayHanson/advent/master/readme.txt@/7@
 @8@https://raw.githubusercontent.com/ClayHanson/advent/master/addons/mp_test/description.txt@/8@
-@9@https://raw.githubusercontent.com/ClayHanson/advent/master/addons/mp_test/example.ch@/9@
-@10@https://raw.githubusercontent.com/ClayHanson/advent/master/addons/mp_test/example.desc@/10@
-@11@https://raw.githubusercontent.com/ClayHanson/advent/master/addons/mp_test/example.txt@/11@
-@12@https://raw.githubusercontent.com/ClayHanson/advent/master/addons/mp_test/mapcfg.txt@/12@
+@9@https://raw.githubusercontent.com/ClayHanson/advent/master/addons/mp_test/mapcfg.txt@/9@
+@10@https://raw.githubusercontent.com/ClayHanson/advent/master/base/intro/intro0.txt@/10@
+@11@https://raw.githubusercontent.com/ClayHanson/advent/master/base/intro/intro1.txt@/11@
+@12@https://raw.githubusercontent.com/ClayHanson/advent/master/base/intro/intro2.txt@/12@
+@13@https://raw.githubusercontent.com/ClayHanson/advent/master/base/intro/intro3.txt@/13@
+@14@https://raw.githubusercontent.com/ClayHanson/advent/master/base/intro/introcfg.txt@/14@
