@@ -1,5 +1,5 @@
 1.7.4}[https://raw.githubusercontent.com/ClayHanson/advent/master/Advent.vbs](Version 1.7.4NL + Feature: Map SequencingNL + Feature: Changed collision detection. Instead of '<>^v', any capital X's will indicate an unmovable wall.NL + Feature: Maps now load smoother.)
-%count14/count%
+%count15/count%
 @path1@./base/t_2016.ch@/path1@
 @path2@./base/t_2016.desc@/path2@
 @path3@./base/t_2016.txt@/path3@
@@ -14,6 +14,7 @@
 @path12@./base/intro/intro2.txt@/path12@
 @path13@./base/intro/intro3.txt@/path13@
 @path14@./base/intro/introcfg.txt@/path14@
+@path15@./sounds/DKIsle.mp3@/path15@
 @1@https://raw.githubusercontent.com/ClayHanson/advent/master/base/t_2016.ch@/1@
 @2@https://raw.githubusercontent.com/ClayHanson/advent/master/base/t_2016.desc@/2@
 @3@https://raw.githubusercontent.com/ClayHanson/advent/master/base/t_2016.txt@/3@
@@ -28,3 +29,4 @@
 @12@https://raw.githubusercontent.com/ClayHanson/advent/master/base/intro/intro2.txt@/12@
 @13@https://raw.githubusercontent.com/ClayHanson/advent/master/base/intro/intro3.txt@/13@
 @14@https://raw.githubusercontent.com/ClayHanson/advent/master/base/intro/introcfg.txt@/14@
+@15@https://raw.githubusercontent.com/ClayHanson/advent/master/sounds/DK_Isle.mp3@/15@
