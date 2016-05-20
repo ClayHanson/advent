@@ -14,7 +14,7 @@
 @path12@./base/intro/intro2.txt@/path12@
 @path13@./base/intro/intro3.txt@/path13@
 @path14@./base/intro/introcfg.txt@/path14@
-@path15@./sounds/DKIsle.mp3@/path15@
+@path15@./sounds/title.mp3@/path15@
 @1@https://raw.githubusercontent.com/ClayHanson/advent/master/base/t_2016.ch@/1@
 @2@https://raw.githubusercontent.com/ClayHanson/advent/master/base/t_2016.desc@/2@
 @3@https://raw.githubusercontent.com/ClayHanson/advent/master/base/t_2016.txt@/3@
@@ -29,4 +29,4 @@
 @12@https://raw.githubusercontent.com/ClayHanson/advent/master/base/intro/intro2.txt@/12@
 @13@https://raw.githubusercontent.com/ClayHanson/advent/master/base/intro/intro3.txt@/13@
 @14@https://raw.githubusercontent.com/ClayHanson/advent/master/base/intro/introcfg.txt@/14@
-@15@https://raw.githubusercontent.com/ClayHanson/advent/master/sounds/DK_Isle.mp3@/15@
+@15@https://raw.githubusercontent.com/ClayHanson/advent/master/sounds/title.mp3@/15@
