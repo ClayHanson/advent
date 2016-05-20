@@ -1,0 +1,1 @@
+start]PlaySound "./sounds/title.mp3",0
