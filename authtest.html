@@ -1,19 +1,19 @@
 <!DOCTYPE html>
-<html>
+<html id="a">
 <head>
-<title>Test</title>
 <script>
   function getURLParameter(name) {
     return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search)||[,""])[1].replace(/\+/g, '%20'))||null;
   }
   function load() {
     document.open()
-    if('null' != getURLParameter("key")) {
-      document.write("YES")
-    } else {
+    if(!(getURLParameter("key"))) {
       document.write("NO")
+    } else {
+      document.write("YES")
     }
   }
+  document.getElementById("a").innerHTML = ""
   load();
 </script>
 </head>
